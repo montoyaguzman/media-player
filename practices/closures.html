@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Closures</title>
+</head>
+<body>
+
+    <a href="/ejercicios/">Go back</a>
+
+    <p><em>Abre la consola</em></p>
+
+    <script>
+
+        // IIFE Inmediatly Invoked Function Expression
+        (function() {
+            let color = 'green'
+            function printColor() {
+                console.log(color)
+            }
+            printColor()
+        })()
+
+        // Funciones que regresan otras funciones
+        function makeColorPrinter(color) {
+            let colorMessage = `El color es ${color}`
+            return function() {
+                console.log(colorMessage)
+            }
+        }
+        let colorGreenPrinter = makeColorPrinter('green')
+        console.log(colorGreenPrinter())
+
+        // Funciones privadas
+        /*const counter = {
+            count: 3
+        }
+        counter.count = 99
+        console.log(counter.count)*/
+
+        function makeCounter(n) {
+            let count = n
+            return {
+                increase: function() {
+                    count += 1
+                },
+                decrease: function() {
+                    count -= 1
+                },
+                getCount: function() {
+                    return count
+                }
+            }
+        }
+        let counter = makeCounter(7)
+        console.log(`El valor del contador es: ${counter.getCount()}`)
+        counter.increase()
+        console.log(`El valor del contador es: ${counter.getCount()}`)
+        counter.decrease()
+        counter.decrease()
+        counter.decrease()
+        counter.decrease()
+        console.log(`El valor del contador es: ${counter.getCount()}`)
+
+        function iniciar() {
+            let nombre = "Mi nombre es Pedrito"  // La variable nombre es una variable local creada por iniciar.
+            function mostrarNombre() {  // La función mostrarNombre es una función interna, una clausura.
+                console.log(nombre);  // Usa una variable declarada en la función externa.
+            }
+            mostrarNombre();
+        }
+        iniciar()
+
+        /* Guardar una flecha simple en una variable
+        let addNumbers = (a, b) => {
+            console.log(`${a} + ${b} = ${a+b}`)
+        }
+        console.log(addNumbers(7,3))
+        */
+
+        /*
+        function makeSizer(size) {
+        return function() {
+            document.body.style.fontSize = size + 'px';
+        };
+        }
+
+        var size12 = makeSizer(12);
+        var size14 = makeSizer(14);
+        var size16 = makeSizer(16);
+        */
+    </script>
+    
+</body>
+</html>
