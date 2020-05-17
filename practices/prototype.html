@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prototype</title>
+</head>
+<body>
+
+    <a href="/ejercicios/">Go back</a>
+
+    <p><em>Abre la consola</em></p>
+
+
+    <script>
+
+        // Un objeto simple
+        const flash = {
+            name: 'flash',
+        }
+        
+        flash.sayHello = function() {
+            console.log(`Hola desde la speed force. Atte: ${this.name}`)
+        }
+
+        flash.sayHello()
+
+
+        const batman = {
+            name: 'batman',
+        }
+        
+        batman.sayHello = function() {
+            console.log(`Soy ${this.name} ._.`)
+        }
+
+        batman.sayHello()
+
+        // Eficientar con constructores
+        function Hero(name) {
+            const hero = {
+                name: name
+            }
+            hero.sayHello = function() {
+                console.log(`Hola, soy: ${this.name}`)
+            }
+            return hero
+        }
+        const flash1 = Hero('Flash')
+        flash1.sayHello()
+        const batman1 = Hero('Batman')
+        batman1.sayHello()
+
+
+        // Mejorar para no recrear la funcion sayHello
+        const heroMethods = {
+                sayHello: function() {
+                console.log(`Hola, soy: ${this.name}`)
+            },
+        }
+        function HeroConst1(name) {
+            
+            const hero = {
+                name: name
+            }
+            hero.sayHello = heroMethods.sayHello
+            return hero
+        }
+        const flash2 = HeroConst1('Flash')
+        flash2.sayHello()
+        const batman2 = HeroConst1('Batman')
+        batman2.sayHello()
+
+        // Object.create
+        // const newObj = Object.create(obj)
+        function HeroConst2(name) {
+            const hero = Object.create(heroMethods.sayHello)
+            hero.name = name
+            return hero
+        }
+
+        const flash3 = Hero('Flash')
+        flash3.sayHello()
+        const batman3 = Hero('Batman')
+        batman3.sayHello()
+
+
+        // los metodos de hero en hero
+        function HeroCreateObj(name) {
+            const hero = Object.create(HeroCreateObj.prototype)
+            hero.name = name
+            return hero 
+        }
+
+        HeroCreateObj.prototype.sayHello = function() {
+            console.log(`Soy: ${this.name}, un superheroina`)
+        }
+
+        const supergirl = HeroCreateObj('Supergirl')
+        supergirl.sayHello()
+
+
+        // Uso de new y sugar sintaxis
+        function HeroSugar(name) {
+            // this = Object.create(Hero1.prototype)
+            this.name = name
+            // return this
+        }
+
+        HeroSugar.prototype.sayHello = function() {
+            console.log(`Soy: ${this.name}, un superheroina con new`)
+        }
+
+        const chicaAlcon = new HeroSugar('Chica Alcón')
+        chicaAlcon.sayHello()
+        
+
+    </script>
+    
+</body>
+</html>

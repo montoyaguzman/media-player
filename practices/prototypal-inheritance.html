@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Herencia Prototipal</title>
+</head>
+<body>
+
+    <a href="/ejercicios/">Go back</a>
+
+    <p><em>Abre la consola</em></p>
+
+
+    <script>
+
+    	function HeroSugar(name) {
+            this.name = name
+        }
+
+        HeroSugar.prototype.sayHello = function() {
+            console.log(`Heroe: ${this.name}`)
+        }
+        const chicaAlcon = new HeroSugar('Chica Alcón')
+        // Propiedades de la clase
+        console.log(chicaAlcon.name)
+        console.log(chicaAlcon.sayHello)
+        // Propiedades heredadas
+        console.log(chicaAlcon.toString)
+        // hasOwnProperty
+        console.log(`name.hasOwnProperty hero: ${chicaAlcon.hasOwnProperty('name')}`)
+        console.log(`toString.hasOwnProperty hero: ${chicaAlcon.hasOwnProperty('toString')}`)
+
+        // chicaAlcon.__proto__ === Object.prototype(chicaAlcon)
+        chicaAlcon.toString // objeto
+        const protoChicaAlcon = Object.getPrototypeOf(chicaAlcon) // clase que crea al objeto
+		const protoHero = Object.getPrototypeOf(HeroSugar.prototype) // clase object
+        // object === objecto    =>    comparador a nivel de referencias
+        // hasOwnProperty('prop')    =>    Devuelve true o false si encuentrar la prop en el proto
+        // getPrototypeOf(Object.prototype)    =>    Devuelve el prototipo del obj especificado
+
+
+    </script>
+    
+</body>
+</html>
