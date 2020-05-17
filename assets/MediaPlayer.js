@@ -2,6 +2,7 @@ function MediaPlayer(config) {
     this.media = config.el
     this.plugins = config.plugins || []
     this.isPlaying = false
+    this.existSound = false
     this._initPlugins()
 }
 
