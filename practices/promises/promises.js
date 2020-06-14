@@ -64,3 +64,23 @@ async function getMovesInSequences() {
     console.log('iniciales: ', pokes)
 
 }
+
+async function getMovesInParallelFetch() {
+    const pokemons = await getInicialesKanto() 
+    const getMoves = pokemons.map(poke => getAbilitiesByNameFetch(poke.name))
+    const moves = await Promise.all(getMoves)
+    let pokesWithMoves = pokemons.map((poke,i) => {
+        let newPoke = { ...poke, moves: moves[i].splice(1,10) }
+        return newPoke
+    })
+    return pokesWithMoves
+}
+
+async function getMovesInParallel() {
+    const pokesWithMoves = await getMovesInParallelFetch()
+    console.log('iniciales: ', pokesWithMoves)
+}
+
+async function getFastestPokemon() {
+    
+}
