@@ -1,43 +1,55 @@
 var urlBase = 'https://pokeapi.co/api/v2/pokemon'
 
-function getInicialesKanto() {
+async function getInicialesKanto() {
     const query = '?limit=9&offset=0'
     const url = `${urlBase}${query}`
-    return fetch(url)
-        .then(response => response.json() )
-        .then(data => {
-            let { results } = data
-            let arr = results.map(element => {
-                return element.name
-            })
-            console.log('Iniciales kanto: ', arr)
-        })
+    const response = await fetch(url)
+    const data = await response.json()
+    const { results } = data
+    let arr = results.map(element => { return element.name })
+    console.log('Iniciales Kanto:', arr)
 }
 
-function getLegendary() {
+async function getLegendary() {
+    console.log('Atrapaste a: ', await getLegendaryFetch())
+}
+
+async function getLegendaryFetch() {
     let num = getRndInteger(144, 147)
     const url = `${urlBase}/${num}`
-    return fetch(url)
-        .then(response => response.json())
-        .then(data => {
-            let { name } = data
-            console.log('Has atrapado a:', name.toUpperCase())
-        })
+    const response = await fetch(url)
+    const data = await response.json()
+    return  data.name
 }
 
-function getAbilitiesByName() {
+async function getAbilitiesByName() {
     let name = document.getElementById('name').value
+    const url = `${urlBase}/${name}`
+    
+    try {
+        let response = await getAbilitiesByNameFetch()
+        let { moves } = response
+        let movesArr = moves.map(element => element.move.name)
+        console.log(`${name} aprende: `, movesArr.splice(1,10))
+    } catch(error) {
+        console.log('error: ', error)
+    }
+
+}
+
+function getAbilitiesByNameFetch() {
+    let name = document.getElementById('name').value || 'snorlax'
     const url = `${urlBase}/${name}`
     return fetch(url)
         .then(response => response.json())
-        .then(data => {
-            let { moves } = data
-            let movesArr = moves.map(element => element.move.name)
-            console.log(`${name} aprende: `, movesArr.splice(1,10))
-        })
-        .catch(err => console.log('error: ', err))
+        .then(data => data)
 }
 
 function getRndInteger(min, max) {
     return Math.floor(Math.random() * (max - min) ) + min;
-  }
+}
+
+
+function managePromises() {
+
+}
