@@ -4,7 +4,9 @@ import AutoPlay from './plugins/Autoplay.js'
 const video = document.querySelector('video')
 const buttonPlay = document.querySelector('#play')
 const buttonSound = document.querySelector('#sound')
-const player = new MediaPlayer( {el: video, plugins: [/*new AutoPlay()*/]} )
+const player = new MediaPlayer( {el: video, plugins: [
+    new AutoPlay()
+    ]} )
     
 buttonPlay.onclick = () => {
     !player.isPlaying
