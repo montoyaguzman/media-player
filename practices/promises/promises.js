@@ -81,6 +81,14 @@ async function getMovesInParallel() {
     console.log('iniciales: ', pokesWithMoves)
 }
 
-async function getFastestPokemon() {
-    
+async function getFastestMoveFetch() {
+    const pokemons = await getInicialesKanto() 
+    const getMoves = pokemons.map(poke => getAbilitiesByNameFetch(poke.name))
+    const moveFast = await Promise.race(getMoves)
+    return moveFast
+}
+
+async function getFastestMove() {
+    const fastestPoke = await getFastestMoveFetch()
+    console.log('fastest move: ', fastestPoke[0].move.name)
 }
