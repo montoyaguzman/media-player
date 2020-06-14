@@ -5,9 +5,7 @@ async function getInicialesKanto() {
     const url = `${urlBase}${query}`
     const response = await fetch(url)
     const data = await response.json()
-    const { results } = data
-    let arr = results.map(element => { return element.name })
-    console.log('Iniciales Kanto:', arr)
+    return data.results
 }
 
 async function getLegendary() {
@@ -22,12 +20,10 @@ async function getLegendaryFetch() {
     return  data.name
 }
 
-async function getAbilitiesByName() {
+async function getAbilitiesByName(str) {
     let name = document.getElementById('name').value
-    const url = `${urlBase}/${name}`
-    
     try {
-        let response = await getAbilitiesByNameFetch()
+        let response = await getAbilitiesByNameFetch(name)
         let { moves } = response
         let movesArr = moves.map(element => element.move.name)
         console.log(`${name} aprende: `, movesArr.splice(1,10))
@@ -37,12 +33,11 @@ async function getAbilitiesByName() {
 
 }
 
-function getAbilitiesByNameFetch() {
-    let name = document.getElementById('name').value || 'snorlax'
+function getAbilitiesByNameFetch(name) {
     const url = `${urlBase}/${name}`
     return fetch(url)
         .then(response => response.json())
-        .then(data => data)
+        .then(data => data.moves)
 }
 
 function getRndInteger(min, max) {
@@ -50,6 +45,22 @@ function getRndInteger(min, max) {
 }
 
 
-function managePromises() {
+async function getMovesInSequences() {
+    
+    const names = await getInicialesKanto()
+    let pokes = []
+
+    for (const name of names) {
+        const pokemon = { name: name.name }
+        pokes.push(pokemon)
+    }
+
+    let count = 0
+    for(const poke of pokes) {
+        const moves = await getAbilitiesByNameFetch(poke.name)
+        pokes[count].moves = moves.splice(1,10)
+        count++
+    }
+    console.log('iniciales: ', pokes)
 
 }
