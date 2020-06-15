@@ -3,6 +3,7 @@ class AutoPause {
     constructor() {
         this.threshold = 0.25
         this.handlerInterception = this.handlerInterception.bind(this)
+        this.handlerVisibilityChange = this.handlerVisibilityChange.bind(this)
     }
 
     run(player) {
@@ -11,6 +12,8 @@ class AutoPause {
             threshold: this.threshold
         })
         observer.observe(this.player.media)
+
+        document.addEventListener('visibilitychange', this.handlerVisibilityChange)
     }
 
     handlerInterception(entries) {
@@ -21,6 +24,13 @@ class AutoPause {
             ? this.player.play()
             : this.player.pause()
 
+    }
+
+    handlerVisibilityChange() {
+        const isVisible = document.visibilityState === 'visible'
+        isVisible
+            ? this.player.play()
+            : this.player.pause()
     }
 
 }
