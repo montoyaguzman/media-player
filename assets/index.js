@@ -28,3 +28,10 @@ buttonSound.onclick = () => {
         : player.mute()
     player.existSound = !player.existSound
 }
+
+if('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js').catch(error => {
+        console.log('error:', error)
+    })
+
+}
